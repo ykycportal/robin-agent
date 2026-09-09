@@ -1,0 +1,25 @@
+# Core dependencies
+requests>=2.34.0
+beautifulsoup4>=4.15.0
+lxml>=6.1.0
+scrapling>=0.4.15
+
+# Social media scraping
+agent-reach>=1.5.0
+
+# App integrations
+composio>=0.21.0
+composio-client>=1.43.0
+
+# Optional: Advanced scraping
+# firecrawl>=1.0.0
+# scrapingbee>=1.0.0
+# playwright>=1.40.0
+
+# Optional: SEO tools
+# dataforseo-client>=3.0.0
+
+# Development
+pytest>=8.0.0
+black>=24.0.0
+isort>=5.13.0

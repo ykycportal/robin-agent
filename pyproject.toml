@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "robin-agent"
+version = "1.0.0"
+description = "AI Agent toolkit for dropshipping beginners — web scraping, SEO, social media, app integrations"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "ykycportal"}
+]
+keywords = ["dropshipping", "scraping", "seo", "ai", "automation", "market-research"]
+
+dependencies = [
+    "requests>=2.34.0",
+    "beautifulsoup4>=4.15.0",
+    "lxml>=6.1.0",
+    "scrapling>=0.4.15",
+    "agent-reach>=1.5.0",
+    "composio>=0.21.0",
+]
+
+[project.optional-dependencies]
+seo = ["dataforseo-client>=3.0.0"]
+scraping = ["firecrawl>=1.0.0", "scrapingbee>=1.0.0"]
+browser = ["playwright>=1.40.0"]
+dev = ["pytest>=8.0.0", "black>=24.0.0", "isort>=5.13.0"]
+
+[project.scripts]
+robin = "robin_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
