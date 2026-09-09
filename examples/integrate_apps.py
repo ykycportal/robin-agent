@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-App Integration Example for Robin
+App Integration Example for Robin — Using Composio
 
-Demonstrates connecting to 200+ apps via Composio.
+Demonstrates connecting to 200+ apps including Google Workspace.
 """
 
 import os
@@ -13,87 +13,165 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 def check_composio():
-    """Check if Composio is installed and configured."""
-    
+    """Check if Composio is installed and working."""
     try:
         import composio
-        print("✅ Composio is installed")
-        print(f"   Version: {composio.__version__ if hasattr(composio, '__version__') else 'unknown'}")
+        print(f"✅ Composio installed: {composio.__version__}")
+        return True
     except ImportError:
         print("❌ Composio not installed")
         print("   Run: pip install composio")
         return False
-    
-    return True
 
 
-def list_apps():
-    """List available Composio apps."""
-    
-    print("\n" + "=" * 60)
-    print("🔌 Available Apps (200+)")
-    print("=" * 60)
-    
-    apps = [
-        "github", "notion", "slack", "discord",
-        "google_sheets", "google_drive", "gmail",
-        "shopify", "stripe", "trello", "airtable",
-        "hubspot", "salesforce", "zoho",
-        "linear", "clickup", "asana",
-        "twitter", "reddit", "youtube",
-        "medium", "substack", "linkedin",
-        "figma", "vercel", "netlify"
-    ]
-    
-    print("\n📋 Popular apps:")
-    for i in range(0, len(apps), 10):
-        print("   " + " | ".join(apps[i:i+10]))
-    
-    print("\n💡 To connect:")
-    print("   client = ComposioClient()")
-    print("   app = client.get_app('github')")
-    print("   result = app.action('get_repos').execute()")
+def list_google_apps():
+    """List available Google Workspace apps in Composio."""
+    try:
+        from composio import ComposioClient
+        client = ComposioClient()
+        
+        # Get all available apps
+        apps = client.apps()
+        
+        google_apps = [app for app in apps if 'google' in app.name.lower()]
+        
+        print("\n🔌 Google Workspace Apps Available:")
+        for app in google_apps:
+            print(f"   • {app.name.title()}")
+            
+        return google_apps
+    except Exception as e:
+        print(f"⚠️  Could not list apps: {e}")
+        return []
 
 
-def setup_integration():
-    """Setup a specific integration."""
-    
-    print("\n" + "=" * 60)
-    print("⚙️  Setup Integration")
-    print("=" * 60)
-    
-    print("\n📝 Step-by-step setup:")
-    print("   1. Get API key from service provider")
-    print("   2. Add to .env file")
-    print("   3. Use client.get_app('service_name')")
-    print("   4. Call actions: .action('action_name').execute()")
-    
-    print("\n🔑 Example: Shopify integration")
-    print("   shopify = client.get_app('shopify')")
-    print("   products = shopify.action('get_products').execute()")
-    
-    print("\n🔑 Example: Google Sheets")
-    print("   sheets = client.get_app('google_sheets')")
-    print("   sheets.action('write').execute(data=products)")
+def demo_gmail():
+    """Demo Gmail integration via Composio."""
+    try:
+        from composio import ComposioClient
+        client = ComposioClient()
+        
+        print("\n" + "=" * 60)
+        print("📧 Gmail (via Composio)")
+        print("=" * 60)
+        
+        gmail = client.get_app("gmail")
+        
+        print("\nAvailable actions:")
+        actions = gmail.actions()
+        for action in actions[:10]:  # Show first 10
+            print(f"   • {action.name}")
+            
+        print("\n💡 Example usage:")
+        print('   gmail.action("search_messages").execute(query="from:supplier")')
+        
+    except Exception as e:
+        print(f"⚠️  Gmail demo requires auth: {e}")
+
+
+def demo_calendar():
+    """Demo Calendar integration via Composio."""
+    try:
+        from composio import ComposioClient
+        client = ComposioClient()
+        
+        print("\n" + "=" * 60)
+        print("📅 Calendar (via Composio)")
+        print("=" * 60)
+        
+        calendar = client.get_app("google_calendar")
+        
+        print("\nAvailable actions:")
+        actions = calendar.actions()
+        for action in actions[:10]:
+            print(f"   • {action.name}")
+            
+        print("\n💡 Example usage:")
+        print('   calendar.action("create_event").execute(')
+        print('       summary="Product Research",')
+        print('       start_time="2025-09-10T10:00:00Z"')
+        print('   )')
+        
+    except Exception as e:
+        print(f"⚠️  Calendar demo requires auth: {e}")
+
+
+def demo_sheets():
+    """Demo Sheets integration via Composio."""
+    try:
+        from composio import ComposioClient
+        client = ComposioClient()
+        
+        print("\n" + "=" * 60)
+        print("📊 Google Sheets (via Composio)")
+        print("=" * 60)
+        
+        sheets = client.get_app("google_sheets")
+        
+        print("\nAvailable actions:")
+        actions = sheets.actions()
+        for action in actions[:10]:
+            print(f"   • {action.name}")
+            
+        print("\n💡 Example usage:")
+        print('   sheets.action("read_sheet").execute(spreadsheet_id="...")')
+        print('   sheets.action("write_sheet").execute(data=[["Product", "Price"]])')
+        
+    except Exception as e:
+        print(f"⚠️  Sheets demo requires auth: {e}")
+
+
+def demo_drive():
+    """Demo Drive integration via Composio."""
+    try:
+        from composio import ComposioClient
+        client = ComposioClient()
+        
+        print("\n" + "=" * 60)
+        print("☁️  Google Drive (via Composio)")
+        print("=" * 60)
+        
+        drive = client.get_app("google_drive")
+        
+        print("\nAvailable actions:")
+        actions = drive.actions()
+        for action in actions[:10]:
+            print(f"   • {action.name}")
+            
+        print("\n💡 Example usage:")
+        print('   drive.action("list_files").execute()')
+        print('   drive.action("upload_file").execute(file_path="report.pdf")')
+        
+    except Exception as e:
+        print(f"⚠️  Drive demo requires auth: {e}")
 
 
 def main():
     """Main menu."""
-    print("\n🧩 App Integration Suite\n")
+    print("\n🔌 Composio Integration Suite\n")
     
     if not check_composio():
         return
     
-    print("\n1. List available apps")
-    print("2. Setup integration")
-    print("3. Exit")
+    print("\n1. List available Google apps")
+    print("2. Demo Gmail")
+    print("3. Demo Calendar")
+    print("4. Demo Sheets")
+    print("5. Demo Drive")
+    print("6. Exit")
     
-    choice = input("\nSelect option (1-3): ").strip()
+    choice = input("\nSelect option (1-6): ").strip()
     
     if choice == '1':
-        list_apps()
+        list_google_apps()
     elif choice == '2':
-        setup_integration()
+        demo_gmail()
+    elif choice == '3':
+        demo_calendar()
+    elif choice == '4':
+        demo_sheets()
+    elif choice == '5':
+        demo_drive()
     else:
         print("\n👋 Goodbye!")
         sys.exit(0)
